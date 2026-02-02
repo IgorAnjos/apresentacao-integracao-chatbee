@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integração ChatBee × Oficina Inteligente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #028090;
+            --secondary: #00A896;
+            --accent: #02C39A;
+            --dark: #1E2761;
+            --text: #363636;
+            --light-bg: #F5F5F5;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--light-bg);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+            color: var(--white);
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            background: var(--light-bg);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Sections */
+        section {
+            background: var(--white);
+            margin: 2rem 0;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        section h2 {
+            color: var(--dark);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--accent);
+            display: inline-block;
+        }
+
+        section h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(2, 128, 144, 0.2);
+        }
+
+        .card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .card p, .card ul {
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        /* Lists */
+        ul.features-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        ul.features-list li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        ul.features-list li:last-child {
+            border-bottom: none;
+        }
+
+        ul.features-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Numbered Steps */
+        .steps {
+            counter-reset: step-counter;
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .steps li {
+            counter-increment: step-counter;
+            padding: 1rem 1rem 1rem 3.5rem;
+            position: relative;
+            margin-bottom: 1rem;
+            background: var(--light-bg);
+            border-radius: 8px;
+        }
+
+        .steps li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: var(--white);
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Code Blocks */
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1rem;
+            text-align: left;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        tr:hover {
+            background: var(--light-bg);
+        }
+
+        /* Alert Boxes */
+        .alert {
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #E3F2FD;
+            border-color: #2196F3;
+            color: #0D47A1;
+        }
+
+        .alert-warning {
+            background: #FFF3E0;
+            border-color: #FF9800;
+            color: #E65100;
+        }
+
+        .alert-success {
+            background: #E8F5E9;
+            border-color: #4CAF50;
+            color: #1B5E20;
+        }
+
+        .alert strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Flow Diagram */
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .flow-item {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .flow-arrow {
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Highlight */
+        .highlight {
+            background: linear-gradient(120deg, var(--accent) 0%, var(--accent) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            padding: 0 0.2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Integração ChatBee × Oficina Inteligente</h1>
+        <p>Documentação Técnica e Regras de Negócio</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#visao-geral">Visão Geral</a></li>
+            <li><a href="#arquitetura">Arquitetura</a></li>
+            <li><a href="#configuracao">Configuração</a></li>
+            <li><a href="#fluxos">Fluxos</a></li>
+            <li><a href="#eventos">Eventos</a></li>
+            <li><a href="#sincronizacao">Sincronização</a></li>
+            <li><a href="#testes">Testes</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Visão Geral -->
+        <section id="visao-geral">
+            <h2>Visão Geral</h2>
+            <p>Integração bidirecional entre a plataforma de atendimento <strong>ChatBee</strong> e o sistema de televendas <strong>Oficina Inteligente</strong>, permitindo sincronização automática de atendimentos entre as plataformas.</p>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <h4>🎯 Objetivo</h4>
+                    <p>Sincronização automática de atendimentos, status e operadores entre as duas plataformas.</p>
+                </div>
+                <div class="card">
+                    <h4>🏢 Operação</h4>
+                    <p>Suporte para empresa única ou rede de empresas (múltiplas companhias).</p>
+                </div>
+                <div class="card">
+                    <h4>🔗 Comunicação</h4>
+                    <p>Webhooks do ChatBee + API REST da Oficina Inteligente.</p>
+                </div>
+                <div class="card">
+                    <h4>🧪 Ambiente de Testes</h4>
+                    <p>Empresa 4000 (Companhia 288 - limitação de acesso à organização no ChatBee).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Arquitetura -->
+        <section id="arquitetura">
+            <h2>Arquitetura da Integração</h2>
+            
+            <div class="flow">
+                <div class="flow-item">ChatBee</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-item">Webhook</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-item">Oficina Inteligente</div>
+                <div class="flow-arrow">←</div>
+                <div class="flow-item">API REST</div>
+                <div class="flow-arrow">←</div>
+                <div class="flow-item">ChatBee</div>
+            </div>
+
+            <ul class="features-list">
+                <li>ChatBee envia eventos via webhook para Oficina Inteligente</li>
+                <li>Oficina Inteligente processa eventos e atualiza televendas</li>
+                <li>Oficina Inteligente envia atualizações via API para ChatBee</li>
+                <li>Mapeamento De-Para entre entidades das plataformas</li>
+                <li>Autenticação via chave de API e headers customizados</li>
+            </ul>
+        </section>
+
+        <!-- Configuração -->
+        <section id="configuracao">
+            <h2>Configuração</h2>
+
+            <h3>📋 Oficina Inteligente</h3>
+            <ol class="steps">
+                <li>Definir código da empresa (organização e/ou companhia)</li>
+                <li>Configurar pesquisa para classificação de origem do televendas</li>
+                <li>Definir operador padrão para primeiro atendimento</li>
+                <li>Configurar status de abertura + ID externo no ChatBee</li>
+                <li>Configurar status de fechamento + ID externo no ChatBee</li>
+                <li>Habilitar a integração</li>
+                <li>Permitir alteração de operador</li>
+                <li>Colar chave de API do ChatBee</li>
+            </ol>
+
+            <h3>📋 ChatBee</h3>
+            <ol class="steps">
+                <li>Configurar código da empresa no campo ID externo</li>
+                <li>Habilitar recebimento de webhook</li>
+                <li>Inserir URL de retorno (endpoint Oficina Inteligente)</li>
+                <li>Informar número de telefone para notificações de falha</li>
+                <li>Criar header customizado: <code>x-cliente-id: WE-8E37AFD46C</code></li>
+                <li>Gerar chave de acesso (informar na Oficina Inteligente)</li>
+            </ol>
+
+            <h3>🔄 Mapeamento De-Para</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Oficina Inteligente</th>
+                        <th>ChatBee</th>
+                        <th>Campo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>PessoaID</td>
+                        <td>Usuário (contact.id)</td>
+                        <td>external_id</td>
+                    </tr>
+                    <tr>
+                        <td>Status ID</td>
+                        <td>Status (payload.status.id)</td>
+                        <td>external_id</td>
+                    </tr>
+                    <tr>
+                        <td>Operador ID</td>
+                        <td>Operador (user.id / operator.id)</td>
+                        <td>external_id</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-info">
+                <strong>Exemplo de Mapeamento:</strong>
+                Status "Criar Televenda - Teste Dev" (ChatBee ID 2347) → Status 6 (Oficina - Abertura)<br>
+                Status "Conversão - Teste Dev" (ChatBee ID 2349) → Status 8 (Oficina - Fechamento)
+            </div>
+        </section>
+
+        <!-- Fluxos -->
+        <section id="fluxos">
+            <h2>Fluxos de Operação</h2>
+
+            <h3>1️⃣ Cenário: Primeira Mensagem do Cliente</h3>
+            <div class="alert alert-info">
+                <strong>Evento:</strong> ATTENDANCE_CREATED (sem status, sem operador)<br>
+                <strong>Ação:</strong> Nenhuma ação na Oficina Inteligente
+            </div>
+            <p>Cliente envia a primeira mensagem → Chat criado no ChatBee → Webhook enviado → <strong>Nada acontece na Oficina</strong> (ainda não há status ou operador).</p>
+
+            <h3>2️⃣ Cenário: Operador Inicia Atendimento</h3>
+            <div class="alert alert-info">
+                <strong>Evento:</strong> ATTENDANCE_CREATED (com operador, sem status)<br>
+                <strong>Ação:</strong> Nenhuma ação na Oficina Inteligente
+            </div>
+            <p>Operador envia primeira mensagem ao cliente → Chat recebe operador → Webhook enviado → <strong>Nada acontece na Oficina</strong> (ainda não há status classificado).</p>
+
+            <h3>3️⃣ Cenário: Criação de Televendas</h3>
+            <div class="alert alert-success">
+                <strong>Evento:</strong> STATUS_CHANGED (status de abertura)<br>
+                <strong>Ação:</strong> <span class="highlight">CRIAR TELEVENDAS</span>
+            </div>
+            <p>Operador classifica atendimento com status de abertura → Webhook enviado → <strong>Televendas criado</strong> com operador padrão parametrizado.</p>
+
+            <h3>4️⃣ Cenário: Alteração de Status</h3>
+            <div class="alert alert-success">
+                <strong>Evento:</strong> STATUS_CHANGED (qualquer status)<br>
+                <strong>Ação:</strong> <span class="highlight">ATUALIZAR TELEVENDAS</span>
+            </div>
+            <p>Operador altera status do atendimento → Webhook enviado → <strong>Status do televendas atualizado</strong>.</p>
+
+            <h3>5️⃣ Cenário: Alteração de Operador</h3>
+            <div class="alert alert-success">
+                <strong>Evento:</strong> OPERATOR_CHANGED<br>
+                <strong>Ação:</strong> <span class="highlight">ATUALIZAR OPERADOR DO TELEVENDAS</span>
+            </div>
+            <p>Supervisor altera operador → Webhook enviado → <strong>Operador do televendas atualizado</strong> (se mapeado no De-Para).</p>
+
+            <h3>6️⃣ Cenário: Encerramento de Atendimento</h3>
+            <div class="alert alert-success">
+                <strong>Evento:</strong> ATTENDANCE_CLOSED (com status de fechamento)<br>
+                <strong>Ação:</strong> <span class="highlight">ENCERRAR TELEVENDAS</span>
+            </div>
+            <p>Operador encerra atendimento com status de fechamento → Webhook enviado → <strong>Televendas encerrado</strong>.</p>
+        </section>
+
+        <!-- Eventos -->
+        <section id="eventos">
+            <h2>Eventos do ChatBee</h2>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h4>ATTENDANCE_CREATED</h4>
+                    <p>Disparado quando um atendimento é criado (primeira mensagem do cliente ou primeira resposta do operador).</p>
+                </div>
+                <div class="card">
+                    <h4>STATUS_CHANGED</h4>
+                    <p>Disparado quando o status do atendimento é alterado. <strong>Usado para criar e atualizar televendas</strong>.</p>
+                </div>
+                <div class="card">
+                    <h4>OPERATOR_CHANGED</h4>
+                    <p>Disparado quando o operador responsável pelo atendimento é alterado.</p>
+                </div>
+                <div class="card">
+                    <h4>ATTENDANCE_CLOSED</h4>
+                    <p>Disparado quando o atendimento é encerrado no ChatBee.</p>
+                </div>
+            </div>
+
+            <h3>📦 Estrutura do Webhook</h3>
+            <pre><code>{
+  "timestamp": "2026-02-02T16:52:47.528Z",
+  "type": "STATUS_CHANGED",
+  "organization": {
+    "id": "255",
+    "name": "Oficina Inteligente LTDA",
+    "external_id": null
+  },
+  "company": {
+    "id": "288",
+    "name": "Oficina Inteligente",
+    "external_id": "4000"  ← Código da empresa
+  },
+  "user": {
+    "id": "5990",
+    "name": "Igor",
+    "external_id": "17264996"  ← ID do operador na Oficina
+  },
+  "history": {
+    "id": "12129558",  ← ID do atendimento
+    "channel_id": "2438",
+    "is_out_of_office_hours": false,
+    "automatic": false
+  },
+  "channel": {
+    "id": "2438",
+    "name": "Marketing - CS",
+    "number": "5511967574497"
+  },
+  "contact": {
+    "id": "7302314",
+    "name": ".",
+    "address": "554898457029",  ← Telefone do cliente
+    "type": "wa",
+    "external_id": null
+  },
+  "payload": {
+    "status": {
+      "id": "2347",
+      "name": "Criar Televenda - Teste Dev",
+      "external_id": "6"  ← Status na Oficina
+    }
+  }
+}</code></pre>
+        </section>
+
+        <!-- Sincronização -->
+        <section id="sincronizacao">
+            <h2>Regras de Sincronização</h2>
+
+            <h3>ChatBee → Oficina Inteligente ✅</h3>
+            <ul class="features-list">
+                <li>Televendas criado apenas quando status de abertura é classificado</li>
+                <li>Alteração de operador atualiza operador do televendas</li>
+                <li>Alteração de status atualiza status do televendas</li>
+                <li>Status de fechamento encerra televendas</li>
+            </ul>
+
+            <h3>Oficina Inteligente → ChatBee ⚠️</h3>
+            <ul class="features-list">
+                <li>Alteração de status ou operador é enviada para ChatBee</li>
+                <li>Atualização não ocorre se ID externo não configurado no ChatBee</li>
+                <li><strong>Status de fechamento NÃO encerra atendimento no ChatBee</strong></li>
+                <li>Evento ATTENDANCE_CLOSED não é usado para encerrar no ChatBee</li>
+            </ul>
+
+            <div class="alert alert-warning">
+                <strong>⚠️ Atenção: Sincronização Assimétrica</strong>
+                O encerramento funciona apenas no sentido ChatBee → Oficina Inteligente. Encerrar um televendas na Oficina NÃO fecha o atendimento no ChatBee.
+            </div>
+        </section>
+
+        <!-- Pontos de Atenção -->
+        <section id="pontos-atencao">
+            <h2>Pontos de Atenção</h2>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h4>⚠️ Limitação de Testes</h4>
+                    <p>Ambiente atual usa apenas Companhia 4000 devido a restrições de acesso.</p>
+                </div>
+                <div class="card">
+                    <h4>⚠️ Criação Condicional</h4>
+                    <p>Televendas só é criado quando status de abertura é classificado, não na criação do atendimento.</p>
+                </div>
+                <div class="card">
+                    <h4>⚠️ Operador Padrão</h4>
+                    <p>Mesmo com operador no ChatBee, televendas usa operador padrão configurado.</p>
+                </div>
+                <div class="card">
+                    <h4>⚠️ Fechamento Assimétrico</h4>
+                    <p>Fechamento não funciona no sentido Oficina → ChatBee.</p>
+                </div>
+                <div class="card">
+                    <h4>⚠️ Dependência de Configuração</h4>
+                    <p>ID externo deve estar configurado para sincronização funcionar.</p>
+                </div>
+                <div class="card">
+                    <h4>⚠️ Mapeamento Obrigatório</h4>
+                    <p>De-Para deve estar configurado para status, operadores e clientes.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testes -->
+        <section id="testes">
+            <h2>Cenários de Teste BDD</h2>
+
+            <h3>Checklist de Validação</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cenário</th>
+                        <th>Evento</th>
+                        <th>Resultado Esperado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cliente envia primeira mensagem</td>
+                        <td>ATTENDANCE_CREATED</td>
+                        <td>Nenhuma ação na Oficina</td>
+                    </tr>
+                    <tr>
+                        <td>Operador atende</td>
+                        <td>ATTENDANCE_CREATED</td>
+                        <td>Nenhuma ação na Oficina</td>
+                    </tr>
+                    <tr>
+                        <td>Classificar status de abertura</td>
+                        <td>STATUS_CHANGED</td>
+                        <td>Criar televendas</td>
+                    </tr>
+                    <tr>
+                        <td>Alterar status</td>
+                        <td>STATUS_CHANGED</td>
+                        <td>Atualizar televendas</td>
+                    </tr>
+                    <tr>
+                        <td>Alterar operador</td>
+                        <td>OPERATOR_CHANGED</td>
+                        <td>Atualizar operador</td>
+                    </tr>
+                    <tr>
+                        <td>Encerrar atendimento</td>
+                        <td>ATTENDANCE_CLOSED</td>
+                        <td>Encerrar televendas</td>
+                    </tr>
+                    <tr>
+                        <td>Alterar status na Oficina</td>
+                        <td>API Call</td>
+                        <td>Sincronizar para ChatBee</td>
+                    </tr>
+                    <tr>
+                        <td>Encerrar na Oficina</td>
+                        <td>-</td>
+                        <td>NÃO encerra no ChatBee</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>📋 Cenários BDD Completos em Gherkin</h3>
+
+            <h4>Feature 1: Configuração Inicial</h4>
+            <pre><code>Funcionalidade: Configurar parâmetros da integração no sistema Oficina Inteligente
+  Como administrador do sistema
+  Eu quero configurar os parâmetros de integração com ChatBee
+  Para que os atendimentos sejam sincronizados corretamente
+
+Cenário: Configurar empresa e parâmetros básicos
+  Dado que estou na tela de configuração de integração
+  Quando eu informo o código da empresa "4000"
+  E defino a pesquisa de classificação de origem
+  E defino o operador padrão "Operador Teste"
+  E defino o status de abertura "6"
+  E defino o status de fechamento "8"
+  E habilito a integração
+  E permito alteração de operador
+  E informo a chave de API "WE-8E37AFD46C"
+  Então a configuração deve ser salva com sucesso
+  E o sistema deve estar pronto para receber webhooks
+
+Cenário: Validar campos obrigatórios
+  Dado que estou na tela de configuração de integração
+  Quando eu tento salvar sem informar a chave de API
+  Então devo ver a mensagem "Chave de API é obrigatória"
+  E a configuração não deve ser salva
+
+Cenário: Configurar webhook no ChatBee
+  Dado que estou na tela de configuração da empresa "288"
+  Quando eu informo o ID externo "4000"
+  E habilito o recebimento de webhook
+  E informo a URL de retorno "https://api.oficinainteligente.com/webhook/chatbee"
+  E informo o telefone de notificação "5511967574497"
+  E crio o header "x-cliente-id" com valor "WE-8E37AFD46C"
+  E gero a chave de acesso
+  Então a configuração deve ser salva com sucesso
+  E o sistema deve enviar webhooks para a URL configurada</code></pre>
+
+            <h4>Feature 2: Primeira Mensagem do Cliente</h4>
+            <pre><code>Funcionalidade: Cliente envia primeira mensagem
+  Como cliente
+  Eu quero enviar uma mensagem no WhatsApp
+  Para iniciar um atendimento
+
+Cenário: Cliente envia primeira mensagem - Nenhuma ação na Oficina
+  Dado que o cliente "5511948255689" nunca conversou com a empresa
+  Quando o cliente envia a mensagem "Olá, preciso de ajuda"
+  Então o ChatBee deve criar um atendimento com ID "12128782"
+  E o atendimento não deve ter operador atribuído
+  E o atendimento não deve ter status classificado
+  E o webhook "ATTENDANCE_CREATED" deve ser enviado para Oficina Inteligente
+  E o webhook deve conter:
+    """
+    {
+      "type": "ATTENDANCE_CREATED",
+      "company": {"id": "288", "external_id": "4000"},
+      "contact": {"id": "7302321", "address": "5511948255689"},
+      "user": null
+    }
+    """
+  E nenhum televendas deve ser criado na Oficina Inteligente
+  E o log deve registrar "Atendimento sem status - aguardando classificação"</code></pre>
+
+            <h4>Feature 3: Operador Inicia Atendimento</h4>
+            <pre><code>Funcionalidade: Operador inicia atendimento
+  Como operador do ChatBee
+  Eu quero atender um cliente
+  Para ajudá-lo com sua solicitação
+
+Cenário: Operador atende cliente - Ainda sem criar televendas
+  Dado que existe um atendimento ID "12129558" sem operador
+  E o atendimento não tem status classificado
+  Quando o operador "Igor" (ID 5990) envia a primeira mensagem
+  Então o atendimento deve ser atribuído ao operador
+  E o webhook "ATTENDANCE_CREATED" deve ser enviado
+  E o webhook deve conter dados do operador:
+    """
+    {
+      "type": "ATTENDANCE_CREATED",
+      "user": {"id": "5990", "name": "Igor", "external_id": "17264996"}
+    }
+    """
+  E o atendimento ainda não deve ter status classificado
+  E nenhum televendas deve ser criado na Oficina Inteligente
+  E o log deve registrar "Operador atribuído - aguardando classificação de status"</code></pre>
+
+            <h4>Feature 4: Criar Televendas (Status de Abertura)</h4>
+            <pre><code>Funcionalidade: Criar televendas ao classificar status de abertura
+  Como operador do ChatBee
+  Eu quero classificar o atendimento com status de abertura
+  Para criar um televendas na Oficina Inteligente
+
+Contexto:
+  Dado que a integração está configurada
+  E o status "Criar Televenda - Teste Dev" (ID 2347) está mapeado com external_id "6"
+  E o status "6" está configurado como status de abertura na Oficina Inteligente
+  E o operador padrão "Operador Teste" está configurado
+
+Cenário: Criar televendas com sucesso
+  Dado que existe um atendimento ID "12129558" com operador "Igor"
+  E o atendimento não tem status classificado
+  E não existe televendas vinculado ao atendimento
+  Quando o operador classifica o atendimento com status "Criar Televenda - Teste Dev"
+  Então o webhook "STATUS_CHANGED" deve ser enviado para Oficina Inteligente
+  E o webhook deve conter:
+    """
+    {
+      "type": "STATUS_CHANGED",
+      "history": {"id": "12129558"},
+      "payload": {
+        "status": {"id": "2347", "external_id": "6"}
+      }
+    }
+    """
+  E um televendas deve ser criado na Oficina Inteligente
+  E o televendas deve ter os seguintes dados:
+    | Campo           | Valor                      |
+    | Status          | 6 (abertura)               |
+    | Operador        | Operador Teste (padrão)    |
+    | History ID      | 12129558                   |
+    | Cliente         | Contact ID 7302314         |
+  E o log deve registrar "Televendas criado com sucesso - ID: [TELEVENDAS_ID]"
+  E uma resposta HTTP 200 deve ser retornada ao ChatBee
+
+Cenário: Tentativa de criar televendas com status não mapeado
+  Dado que existe um atendimento ID "12129558"
+  E o operador classifica com um status sem external_id configurado
+  Quando o webhook "STATUS_CHANGED" é recebido
+  Então nenhum televendas deve ser criado
+  E o log deve registrar "Status sem mapeamento - external_id não encontrado"
+  E uma resposta HTTP 200 deve ser retornada (não bloqueia o processo)
+
+Cenário: Duplicidade - Atendimento já tem televendas
+  Dado que existe um televendas ID "12345" vinculado ao history_id "12129558"
+  Quando o webhook "STATUS_CHANGED" é recebido novamente para o mesmo history_id
+  Então nenhum televendas duplicado deve ser criado
+  E o televendas existente "12345" deve ser atualizado
+  E o log deve registrar "Televendas já existe - atualizando ao invés de criar"</code></pre>
+
+            <h4>Feature 5: Alterar Status do Atendimento</h4>
+            <pre><code>Funcionalidade: Atualizar status do televendas
+  Como operador do ChatBee
+  Eu quero alterar o status do atendimento
+  Para atualizar o televendas correspondente
+
+Cenário: Alterar status de atendimento em andamento
+  Dado que existe um televendas ID "12345" vinculado ao atendimento "12129558"
+  E o televendas tem status "6" (abertura)
+  E existe um status "Em Negociação" com external_id "7" mapeado
+  Quando o operador altera o status do atendimento para "Em Negociação"
+  Então o webhook "STATUS_CHANGED" deve ser enviado
+  E o televendas "12345" deve ser atualizado para status "7"
+  E nenhum novo televendas deve ser criado
+  E o histórico do televendas deve registrar a alteração de status
+  E o log deve registrar "Status atualizado: 6 → 7"
+
+Cenário: Alterar para status não mapeado
+  Dado que existe um televendas ID "12345" vinculado ao atendimento "12129558"
+  Quando o operador altera para um status que não tem external_id configurado
+  Então o webhook "STATUS_CHANGED" deve ser enviado
+  E o televendas NÃO deve ser atualizado
+  E o status atual deve ser mantido
+  E o log deve registrar "Status sem mapeamento - ignorando atualização"
+  E uma resposta HTTP 200 deve ser retornada
+
+Cenário: Alterar status múltiplas vezes em sequência
+  Dado que existe um televendas ID "12345" com status "6"
+  Quando o operador altera o status para "7"
+  E em seguida altera para "8"
+  E em seguida altera para "6" novamente
+  Então todas as alterações devem ser processadas em ordem
+  E o status final deve ser "6"
+  E o histórico deve conter todas as 3 alterações</code></pre>
+
+            <h4>Feature 6: Alterar Operador do Atendimento</h4>
+            <pre><code>Funcionalidade: Atualizar operador do televendas
+  Como supervisor
+  Eu quero alterar o operador responsável pelo atendimento
+  Para redistribuir a carga de trabalho
+
+Cenário: Alterar operador de atendimento com televendas criado
+  Dado que existe um televendas ID "12345" com operador "Igor" (external_id "17264996")
+  E o atendimento ChatBee é "12129558"
+  E existe o operador "Elayne Oliveira" (external_id "17264997") no De-Para
+  Quando o supervisor altera o operador para "Elayne Oliveira" no ChatBee
+  Então o webhook "OPERATOR_CHANGED" deve ser enviado
+  E o webhook deve conter:
+    """
+    {
+      "type": "OPERATOR_CHANGED",
+      "history": {"id": "12129558"},
+      "payload": {
+        "operator": {"id": "5743", "external_id": "17264997"}
+      }
+    }
+    """
+  E o televendas "12345" deve ser atualizado com operador "17264997"
+  E o histórico deve registrar "Operador alterado: 17264996 → 17264997"
+  E o log deve registrar "Operador atualizado com sucesso"
+
+Cenário: Alterar para operador não mapeado
+  Dado que existe um televendas ID "12345"
+  Quando o operador é alterado para um que não tem external_id configurado
+  Então o webhook "OPERATOR_CHANGED" deve ser enviado
+  E o televendas NÃO deve ser atualizado
+  E o operador atual deve ser mantido
+  E o log deve registrar "Operador sem mapeamento no De-Para"
+
+Cenário: Alterar operador antes de criar televendas
+  Dado que existe um atendimento "12129558" sem status de abertura classificado
+  E não existe televendas vinculado
+  Quando o operador é alterado
+  Então o webhook "OPERATOR_CHANGED" deve ser enviado
+  E nenhuma ação deve ocorrer na Oficina Inteligente
+  E nenhum televendas deve ser criado
+  E o log deve registrar "Nenhum televendas encontrado - ignorando alteração de operador"</code></pre>
+
+            <h4>Feature 7: Encerrar Atendimento</h4>
+            <pre><code>Funcionalidade: Encerrar televendas quando atendimento é fechado
+  Como operador
+  Eu quero encerrar o atendimento no ChatBee
+  Para finalizar o televendas correspondente
+
+Cenário: Encerrar atendimento com status de fechamento mapeado
+  Dado que existe um televendas ID "12345" em aberto
+  E o atendimento ChatBee é "12129558"
+  E o status "Conversão - Teste Dev" (ID 2349) tem external_id "8"
+  E o status "8" está configurado como status de fechamento na Oficina
+  Quando o operador encerra o atendimento com status "Conversão - Teste Dev"
+  Então o webhook "ATTENDANCE_CLOSED" deve ser enviado
+  E o webhook deve conter:
+    """
+    {
+      "type": "ATTENDANCE_CLOSED",
+      "history": {"id": "12129558"},
+      "payload": {
+        "status": {"id": "2349", "external_id": "8"}
+      }
+    }
+    """
+  E o televendas "12345" deve ser encerrado
+  E o status final deve ser "8"
+  E a data de encerramento deve ser registrada
+  E o log deve registrar "Televendas encerrado com sucesso"
+
+Cenário: Encerrar atendimento sem status de fechamento configurado
+  Dado que existe um televendas ID "12345" em aberto
+  Quando o operador encerra o atendimento com status não mapeado como fechamento
+  Então o webhook "ATTENDANCE_CLOSED" deve ser enviado
+  E o televendas deve ser atualizado com o status recebido (se mapeado)
+  E o televendas deve ser marcado como encerrado
+  E o log deve registrar "Atendimento encerrado sem status de fechamento específico"
+
+Cenário: Tentar encerrar atendimento sem televendas
+  Dado que existe um atendimento "12129558" sem televendas criado
+  Quando o operador encerra o atendimento
+  Então o webhook "ATTENDANCE_CLOSED" deve ser enviado
+  E nenhuma ação deve ocorrer na Oficina Inteligente
+  E o log deve registrar "Nenhum televendas encontrado para encerramento"
+  E uma resposta HTTP 200 deve ser retornada</code></pre>
+
+            <h4>Feature 8: Sincronização Reversa (Oficina → ChatBee)</h4>
+            <pre><code>Funcionalidade: Sincronizar alterações da Oficina para ChatBee
+  Como operador da Oficina Inteligente
+  Eu quero atualizar status e operador do televendas
+  Para que sejam refletidos no ChatBee
+
+Cenário: Alterar status do televendas na Oficina
+  Dado que existe um televendas ID "12345" vinculado ao atendimento ChatBee "12129558"
+  E o televendas tem status "6"
+  E existe mapeamento De-Para para status "7" no ChatBee
+  E o status ChatBee correspondente tem ID externo configurado
+  Quando o operador altera o status para "7" na Oficina Inteligente
+  Então a Oficina deve enviar requisição PUT para API ChatBee
+  E a requisição deve conter:
+    """
+    {
+      "history_id": "12129558",
+      "status_id": "[STATUS_CHATBEE_ID_MAPEADO]"
+    }
+    """
+  E o atendimento "12129558" deve ser atualizado no ChatBee
+  E o status deve ser sincronizado
+  E o log deve registrar "Status sincronizado com ChatBee com sucesso"
+
+Cenário: Alterar operador do televendas na Oficina
+  Dado que existe um televendas ID "12345" com operador "17264996"
+  E o atendimento ChatBee é "12129558"
+  E existe mapeamento para operador "17264997" no ChatBee
+  Quando o operador é alterado para "17264997" na Oficina
+  Então a Oficina deve enviar requisição PUT para API ChatBee
+  E o operador do atendimento deve ser atualizado no ChatBee
+  E o log deve registrar "Operador sincronizado com ChatBee"
+
+Cenário: Alterar para status sem ID externo no ChatBee
+  Dado que existe um televendas ID "12345"
+  E o status destino não tem ID externo configurado no ChatBee
+  Quando o operador tenta alterar o status na Oficina
+  Então o status deve ser alterado localmente na Oficina
+  E NENHUMA requisição deve ser enviada ao ChatBee
+  E o log deve registrar "Status sem ID externo - não sincronizado com ChatBee"
+
+Cenário: Encerrar televendas na Oficina (NÃO encerra no ChatBee)
+  Dado que existe um televendas ID "12345" vinculado ao atendimento "12129558"
+  E o status "8" está configurado como fechamento na Oficina
+  Quando o operador altera para status "8" na Oficina
+  Então o televendas deve ser encerrado na Oficina
+  E NENHUM encerramento deve ser enviado ao ChatBee
+  E o atendimento deve permanecer aberto no ChatBee
+  E o log deve registrar "Fechamento não sincronizado - regra de negócio"
+
+Cenário: Falha na sincronização com ChatBee (retry)
+  Dado que existe um televendas ID "12345"
+  E vou alterar o status na Oficina
+  Quando a API do ChatBee retorna erro 500
+  Então o status deve ser alterado localmente
+  E deve marcar como "pendente de sincronização"
+  E deve agendar retry após 5 minutos
+  E deve tentar no máximo 3 vezes
+  E o log deve registrar "Erro na sincronização - agendado retry"</code></pre>
+
+            <h4>Feature 9: Validações e Tratamento de Erros</h4>
+            <pre><code>Funcionalidade: Validar dados e tratar erros
+  Como sistema integrado
+  Eu quero validar dados e tratar erros adequadamente
+  Para garantir integridade da integração
+
+Cenário: Webhook sem external_id da empresa
+  Dado que recebo um webhook do ChatBee
+  E o campo company.external_id é null ou vazio
+  Quando o webhook é processado
+  Então deve rejeitar com HTTP 400
+  E deve retornar mensagem "Código da empresa não configurado"
+  E nenhum televendas deve ser criado
+  E deve enviar notificação para telefone configurado "5511967574497"
+
+Cenário: Webhook com empresa não cadastrada
+  Dado que recebo um webhook com company.external_id "9999"
+  E a empresa "9999" não existe na Oficina Inteligente
+  Quando o webhook é processado
+  Então deve rejeitar com HTTP 404
+  E deve retornar mensagem "Empresa não encontrada: 9999"
+  E deve registrar log de erro
+
+Cenário: Webhook com estrutura inválida
+  Dado que recebo um webhook malformado sem campo "type"
+  Quando o webhook é processado
+  Então deve rejeitar com HTTP 400
+  E deve retornar mensagem "Estrutura de webhook inválida: campo 'type' ausente"
+  E deve registrar a estrutura recebida no log
+
+Cenário: Autenticação falha (header inválido)
+  Dado que recebo um webhook do ChatBee
+  E o header "x-cliente-id" é "INVALID-KEY"
+  Quando o webhook é processado
+  Então deve rejeitar com HTTP 401 Unauthorized
+  E deve retornar mensagem "Chave de autenticação inválida"
+  E deve registrar tentativa de acesso não autorizado
+  E nenhum dado deve ser processado
+
+Cenário: Webhook duplicado (idempotência)
+  Dado que processei o webhook com history.id "12129558" às "2026-02-02T16:52:47.528Z"
+  E criei o televendas ID "12345"
+  Quando recebo o mesmo webhook novamente (mesmos dados)
+  Então deve identificar como duplicado
+  E deve retornar HTTP 200 OK
+  E NÃO deve criar novo televendas
+  E deve retornar "Webhook já processado - televendas: 12345"
+  E o log deve registrar "Webhook duplicado - ignorado"
+
+Cenário: Timeout na comunicação com ChatBee
+  Dado que a Oficina está enviando atualização para ChatBee
+  E a API ChatBee não responde em 30 segundos
+  Quando o timeout é atingido
+  Então deve cancelar a requisição
+  E deve registrar falha no log "Timeout na API ChatBee"
+  E deve marcar sincronização como pendente
+  E deve agendar retry após 5 minutos
+
+Cenário: Validar mapeamento antes de criar televendas
+  Dado que vou criar um televendas
+  E o status do webhook tem external_id "99" (não existe no De-Para)
+  Quando tento processar o webhook
+  Então deve rejeitar com HTTP 400
+  E deve retornar mensagem "Status não mapeado: external_id=99"
+  E deve sugerir "Configure o mapeamento De-Para na administração"
+  E nenhum televendas deve ser criado</code></pre>
+
+            <h4>Feature 10: Massa de Dados e Integração Completa</h4>
+            <pre><code>Funcionalidade: Teste de integração end-to-end
+  Como QA
+  Eu quero validar o fluxo completo da integração
+  Para garantir que todos os componentes funcionam juntos
+
+Cenário: Fluxo completo - Do primeiro contato ao fechamento
+  Dado que a integração está configurada
+  E o cliente "5511948255689" está cadastrado
+  
+  # Passo 1: Cliente envia mensagem
+  Quando o cliente envia "Olá, preciso de orçamento"
+  Então atendimento "12128782" é criado no ChatBee
+  E nenhum televendas é criado (sem status)
+  
+  # Passo 2: Operador atende
+  Quando operador "Igor" responde "Olá! Como posso ajudar?"
+  Então operador é atribuído ao atendimento
+  E ainda nenhum televendas é criado (sem status)
+  
+  # Passo 3: Classificação de abertura
+  Quando operador classifica com status "Criar Televenda - Teste Dev"
+  Então televendas "TV-001" é criado
+  E operador do televendas é "Operador Teste" (padrão)
+  E status do televendas é "6" (abertura)
+  
+  # Passo 4: Alteração de status
+  Quando operador altera status para "Em Negociação" (external_id "7")
+  Então televendas "TV-001" é atualizado para status "7"
+  
+  # Passo 5: Troca de operador
+  Quando supervisor altera operador para "Elayne Oliveira"
+  Então televendas "TV-001" é atualizado para operador "17264997"
+  
+  # Passo 6: Alteração na Oficina
+  Quando na Oficina altero status para "Proposta Enviada" (external_id "9")
+  Então atendimento no ChatBee é atualizado para status "Proposta Enviada"
+  
+  # Passo 7: Encerramento
+  Quando operador encerra atendimento com status "Conversão - Teste Dev"
+  Então televendas "TV-001" é encerrado
+  E status final é "8" (fechamento)
+  E data de encerramento é registrada
+
+Cenário: Teste de carga - Múltiplos webhooks simultâneos
+  Dado que a integração está configurada
+  Quando recebo 50 webhooks STATUS_CHANGED simultaneamente
+  E cada webhook é de um atendimento diferente
+  Então todos os 50 televendas devem ser criados
+  E nenhum televendas duplicado deve existir
+  E todos os webhooks devem retornar HTTP 200
+  E tempo de resposta médio deve ser < 2 segundos
+  E todos os logs devem estar consistentes</code></pre>
+
+            <h3>Validações de Erro</h3>
+            <ul class="features-list">
+                <li>Webhook sem company.external_id → HTTP 400</li>
+                <li>Empresa não cadastrada → HTTP 404</li>
+                <li>Webhook duplicado (idempotência) → HTTP 200 (ignorar)</li>
+                <li>Estrutura de webhook inválida → HTTP 400</li>
+                <li>Autenticação falha (header x-cliente-id inválido) → HTTP 401</li>
+                <li>Timeout na comunicação com API → Retry 3x</li>
+                <li>Status não mapeado no De-Para → HTTP 400</li>
+                <li>Operador não mapeado no De-Para → HTTP 200 (warning)</li>
+                <li>Cliente/contato não encontrado → Criar automaticamente</li>
+            </ul>
+
+            <div class="alert alert-success">
+                <strong>✅ Cobertura Completa</strong>
+                Total de <strong>30+ cenários BDD</strong> cobrindo todos os fluxos, validações e tratamentos de erro da integração.
+            </div>
+        </section>
+
+        <!-- Massa de Dados -->
+        <section id="massa-dados">
+            <h2>Massa de Dados de Teste</h2>
+
+            <h3>🏢 Empresas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>External ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Organização</td>
+                        <td>255</td>
+                        <td>Oficina Inteligente LTDA</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Companhia</td>
+                        <td>288</td>
+                        <td>Oficina Inteligente</td>
+                        <td>4000</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>👤 Usuários/Operadores</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>ChatBee ID</th>
+                        <th>External ID (Oficina)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Igor</td>
+                        <td>5990</td>
+                        <td>17264996</td>
+                    </tr>
+                    <tr>
+                        <td>Elayne Oliveira</td>
+                        <td>5743</td>
+                        <td>17264997</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>📊 Status</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ChatBee</th>
+                        <th>External ID</th>
+                        <th>Oficina Inteligente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ID 2347: "Criar Televenda - Teste Dev"</td>
+                        <td>6</td>
+                        <td>Status 6 (Abertura)</td>
+                    </tr>
+                    <tr>
+                        <td>ID 2349: "Conversão - Teste Dev"</td>
+                        <td>8</td>
+                        <td>Status 8 (Fechamento)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>📞 Contatos/Clientes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Contact ID</th>
+                        <th>Nome</th>
+                        <th>Telefone (Address)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>7302314</td>
+                        <td>.</td>
+                        <td>554898457029</td>
+                    </tr>
+                    <tr>
+                        <td>7302321</td>
+                        <td>Igor</td>
+                        <td>5511948255689</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 - Integração ChatBee × Oficina Inteligente</p>
+        <p>Documentação Técnica - Versão 1.0</p>
+    </footer>
+
+    <script>
+        // Smooth scroll para navegação
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Highlight ativo no menu
+        window.addEventListener('scroll', () => {
+            let current = '';
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
